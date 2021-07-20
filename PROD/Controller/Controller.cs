@@ -6,15 +6,17 @@ namespace Controller
 {
     public class Controller
     {
-        private Model.IGeo geo = new Model.Circle();
-        private View.Painter painter = new View.Painter();
-       
-        public void Draw(PaintEventArgs e)
+        private Drawer drawer   = new Drawer();
+        private View.MainForm mainForm;
+        
+        public void RunForm()
         {
-            List<Pixel> pixels = geo.Prepare(300, 300, Color.Red);
-
-            foreach (Pixel pixel in pixels)
-                painter.Run(e, pixel);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            
+            mainForm = new View.MainForm(drawer);
+            Application.Run(mainForm);
         }
     }
 }

@@ -5,13 +5,10 @@ namespace View
 {
     public class PictureBoxConfig
     {
-        public void Run(PictureBox pb, Controller.Controller controller)
+        public void Run(PictureBox pb)
         {
             pb.Location = new Point(0, 0);
-            pb.Size = new Size(600, 600);
-            
-            pb.Paint += delegate(object sender, PaintEventArgs e) { controller.Draw(e); };
-
+            pb.Size = new Size(1200, 760);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace View
     {
         public void Run(Form mainForm)
         {
-            mainForm.Width = 600;
-            mainForm.Height = 600;
+            mainForm.Width = 1200;
+            mainForm.Height = 760;
             mainForm.BackColor = Color.Orange;
         }
     }

@@ -4,14 +4,20 @@ namespace View
 {
     public class MainForm : Form
     {
-        private Controller.Controller controller = new Controller.Controller();
         private PictureBox pb = new PictureBox();
 
-        public MainForm()
+        public MainForm(Controller.Drawer drawer)
         {
             new FormConfig().Run(this);
-            new PictureBoxConfig().Run(pb, controller);
-            Controls.Add(pb);   
+            new PictureBoxConfig().Run(pb);
+            pb.Paint += delegate(object sender, PaintEventArgs e) { drawer.Run(e); };
+            pb.Refresh();
+            Controls.Add(pb); 
+        }
+
+        public void SetEventHandler()
+        {
+ 
         }
     }
 }

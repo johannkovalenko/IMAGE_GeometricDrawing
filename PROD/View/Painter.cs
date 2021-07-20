@@ -7,9 +7,9 @@ namespace View
     {
         public void Run(PaintEventArgs e, Pixel pixel)
         {
-            using (Pen pen = new Pen(pixel.color, 1)) 
+            using (Pen pen = new Pen(pixel.color, 2)) 
             {
-                e.Graphics.DrawRectangle(pen, new Rectangle(pixel.x, pixel.y, 1, 1));
+                e.Graphics.DrawRectangle(pen, new Rectangle(pixel.x, pixel.y, 2, 1));
             }
         }
     }
