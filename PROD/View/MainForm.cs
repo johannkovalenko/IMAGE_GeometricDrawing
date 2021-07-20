@@ -7,35 +7,41 @@ namespace View
 {
     public class MainForm : Form
     {
-        Controller.Controller controller = new Controller.Controller();
-        Model.IGeo geo = new Model.Circle();
-
+        Controller.Controller controller;
         PictureBox pb;
 
         public MainForm()
         {
+            controller = new Controller.Controller(this);
+
+            FormConfig();
+            PictureBoxConfig();
+            
+            pb.Paint += delegate(object sender, PaintEventArgs e) { controller.Draw(e); };
+        }
+
+        public void Painter(PaintEventArgs e, Pixel pixel)
+        {
+            using (Pen pen = new Pen(pixel.color, 1)) 
+            {
+                e.Graphics.DrawRectangle(pen, new Rectangle(pixel.x, pixel.y, 1, 1));
+            }
+        }
+
+        private void FormConfig()
+        {
             this.Width = 600;
             this.Height = 600;
             this.BackColor = Color.Orange;
+        }
 
+        private void PictureBoxConfig()
+        {
             pb = new PictureBox();
             pb.Location = new Point(0, 0);
             pb.Size = new Size(600, 600);
-            pb.Paint += new PaintEventHandler(PictureBox_Paint);
+            
             Controls.Add(pb);
-        }
-
-        private void PictureBox_Paint(object sender, PaintEventArgs e)
-        {
-            List<Pixel> pixels = geo.Prepare(300, 300, Color.Red);
-
-            foreach (Pixel pixel in pixels)
-                using (Pen pen = new Pen(pixel.color, 1)) 
-                {
-                    e.Graphics.DrawRectangle(pen, new Rectangle(pixel.x, pixel.y, 1, 1));
-                }
-            //new DrawCircle(e).Run();
-            //new MyRectangle(e).Run();
         }
     }
 }
