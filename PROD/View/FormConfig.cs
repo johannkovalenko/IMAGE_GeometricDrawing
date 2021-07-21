@@ -9,7 +9,7 @@ namespace View
         {
             mainForm.Width = 1200;
             mainForm.Height = 760;
-            mainForm.BackColor = Color.Orange;
+            mainForm.BackColor = Color.Beige;
         }
     }
 }

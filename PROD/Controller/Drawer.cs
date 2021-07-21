@@ -12,8 +12,8 @@ namespace Controller
         private int[] diameters = {30, 50, 70, 90, 110};
         private Color[] colors = 
         {
-            Color.Red, Color.Brown, Color.Green, Color.Orange, Color.Pink,
-            Color.Blue, Color.LightBlue
+            Color.Red, Color.Brown, Color.Yellow, Color.Pink,
+            Color.Blue, Color.Green, Color.LightBlue, Color.DarkBlue
         };
 
         public void Run(PaintEventArgs e)
