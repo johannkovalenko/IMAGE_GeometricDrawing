@@ -41,9 +41,10 @@ namespace JK.Tools.Drawing
                     foreach(int[] direction in directions)
                     {
                         var neighbor = new Point(point.X + direction[0], point.Y + direction[1]);
+
                         Color neighborColor = bmp.GetPixel(neighbor.X, neighbor.Y);
 
-                        if (neighborColor == startColor)
+                        if (neighborColor != Color.Black && neighborColor == startColor)
                         {
                             bmp.SetPixel(neighbor.X, neighbor.Y, color);
                             points.Add(neighbor);

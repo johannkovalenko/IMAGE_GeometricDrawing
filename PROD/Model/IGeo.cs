@@ -5,6 +5,6 @@ namespace Model
 {
     public interface IGeo
     {
-        List<Pixel> Prepare(int startX, int startY, Color color, int length);
+        void Prepare(int startX, int startY, Color color, int length);
     }
 }

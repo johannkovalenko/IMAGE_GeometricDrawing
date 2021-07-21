@@ -7,5 +7,6 @@ namespace JK.Tools.Drawing
         Color GetPixel(int x, int y);
         void SetPixel(int x, int y, Color color);
         void Save(string file);
+        Bitmap Get();
     }
 }

@@ -8,6 +8,11 @@ namespace JK.Tools.Drawing
     {
         private Bitmap bmp;
 
+        public Bitmap Get()
+        {
+            return bmp;
+        }
+
         public BMPStandard(string fileName)
         {
             bmp = new Bitmap(fileName);

@@ -23,6 +23,8 @@ namespace JK.Tools.Drawing
         public BMPLockBits(int width, int height)
         {
             bmp = new Bitmap(width, height);
+            Graphics graphics = Graphics.FromImage(bmp);
+            graphics.FillRectangle(Brushes.White,0,0,width,height);
             Init();
         }
 
@@ -36,8 +38,16 @@ namespace JK.Tools.Drawing
             Marshal.Copy(ptrFirstPixel, pixels, 0, pixels.Length);
         }
 
+        public Bitmap Get()
+        {
+            return bmp;
+        }
+
         public Color GetPixel(int x, int y)
         {
+            if (x < 0 || y < 0 || x >= bmp.Width || y >= bmp.Height)
+                return Color.Black;
+                
             int line = y * bitmapData.Stride;
             int shift = x * bytesPerPixel;
         
@@ -50,9 +60,12 @@ namespace JK.Tools.Drawing
 
         public void SetPixel(int x, int y, Color color)
         {
+            if (x < 0 || y < 0 || x >= bmp.Width || y >= bmp.Height)
+                return;
+            
             int line = y * bitmapData.Stride;
             int shift = x * bytesPerPixel;
-
+          
             pixels[line + shift]     = color.B;
             pixels[line + shift + 1] = color.G;
             pixels[line + shift + 2] = color.R;
@@ -63,7 +76,7 @@ namespace JK.Tools.Drawing
             Marshal.Copy(pixels, 0, ptrFirstPixel, pixels.Length);
             bmp.UnlockBits(bitmapData);
             bmp.Save(@"..\output\" + Path.GetFileNameWithoutExtension(file) + ".png", ImageFormat.Png);
-            bmp.Dispose();
+            //bmp.Dispose();
         }
     }
 }
