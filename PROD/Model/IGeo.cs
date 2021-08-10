@@ -1,10 +1,19 @@
 using System.Collections.Generic;
 using System.Drawing;
+using JKDraw = JK.Tools.Drawing;
 
 namespace Model
 {
-    public interface IGeo
+    public abstract class IGeo
     {
-        void Prepare(int startX, int startY, Color color, int length);
+        public abstract void Prepare(JKDraw.BMP bmp, Point startPoint, Color color, int length, int angle);
+
+        protected int[][] directions = {
+            new int[] {0, 0},
+            new int[] {0, 1}, 
+            new int[] {0, -1},
+            new int[] {1, 0}, 
+            new int[] {-1, 0}
+        };
     }
 }

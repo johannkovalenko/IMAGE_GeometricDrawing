@@ -22,17 +22,25 @@ namespace JK.Tools.Drawing
             this.bmp = bmp;
         }
 
-        public void Run(int startX, int startY, Color color)
+        public void Run(Point startPoint, Color color)
         {
             var points = new List<Point>();
 
-            points.Add(new Point(startX, startY));
+            points.Add(startPoint);
 
             int startIndex = 0;
-            Color startColor = bmp.GetPixel(startX, startY);
+            Color startColor = bmp.GetPixel(startPoint);
+
+            int totalPixels = bmp.TotalPixels();
 
             while (true)
             {
+                if (points.Count > totalPixels)
+                {
+                    Console.WriteLine("Emergency Exit");
+                    break;
+                }
+
                 int iterations = points.Count;
                 for (int it = startIndex; it < iterations; it++)
                 {
@@ -42,15 +50,19 @@ namespace JK.Tools.Drawing
                     {
                         var neighbor = new Point(point.X + direction[0], point.Y + direction[1]);
 
-                        Color neighborColor = bmp.GetPixel(neighbor.X, neighbor.Y);
+                        if (!bmp.WithinBMP(neighbor))
+                            continue;
 
-                        if (neighborColor != Color.Black && neighborColor == startColor)
+                        Color neighborColor = bmp.GetPixel(neighbor);
+
+                        if (neighborColor == startColor)
                         {
-                            bmp.SetPixel(neighbor.X, neighbor.Y, color);
+                            bmp.SetPixel(neighbor, color);
                             points.Add(neighbor);
                         }
                     }
                 }
+
                 if (points.Count == iterations)
                     break;
 

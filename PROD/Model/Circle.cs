@@ -7,33 +7,21 @@ namespace Model
 {
     public class Circle : IGeo
     {
-        private JKDraw.BMP bmp;
-
-        private int[][] directions = {
-            new int[] {0, 0},
-            new int[] {0, 1}, 
-            new int[] {0, -1},
-            new int[] {1, 0}, 
-            new int[] {-1, 0}
-        };
-
-        public Circle(JKDraw.BMP bmp)
+        public override void Prepare(JKDraw.BMP bmp, Point startPoint, Color color, int length, int angle)
         {
-            this.bmp = bmp;
-        }
-
-        public void Prepare(int startX, int startY, Color color, int length)
-        {
-            for (double i=0;i<365;i++)
+            for (double i=0;i<360;i+=0.5)
             {
                 double dX = length * Math.Sin(i / 180 * Math.PI);
                 double dY = length * Math.Cos(i / 180 * Math.PI);
 
-                int x = startX + (int) (dX + 0.5);
-                int y = startY - (int) (dY + 0.5);
+                int x = startPoint.X + (int) (dX + 0.5);
+                int y = startPoint.Y - (int) (dY + 0.5);
                 
-                foreach (int[] direction in directions)
-                    bmp.SetPixel(x + direction[0], y + direction[1], color);
+                foreach (int[] direction in base.directions)
+                {
+                    var point = new Point(x + direction[0], y + direction[1]);
+                    bmp.SetPixel(point, color);
+                }
             }
         }
     }

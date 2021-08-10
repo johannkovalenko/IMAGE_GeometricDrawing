@@ -1,5 +1,3 @@
-using System.Windows.Forms;
-using System.Collections.Generic;
 using System.Drawing;
 using System;
 using JKDraw = JK.Tools.Drawing;
@@ -8,11 +6,9 @@ namespace Controller
 {
     public class Drawer
     {
-        private JKDraw.BMP bmp;
         private JKDraw.MagicFill magicFill = new JKDraw.MagicFill();
 
-        private View.Painter painter = new View.Painter();
-        private Model.IGeo[] geos;
+        private Model.IGeo[] geos = new Model.IGeo[] {new Model.Circle(), new Model.Square()}; 
         private int[] diameters = {30, 50, 70, 90, 110};
         private Color[] colors = 
         {
@@ -20,30 +16,31 @@ namespace Controller
             Color.Blue, Color.Green, Color.LightBlue, Color.DarkBlue
         };
 
-        public Drawer(JKDraw.BMP bmp)
+        public Bitmap Run()
         {
-            this.bmp = bmp;
-            geos = new Model.IGeo[] {new Model.Circle(bmp), new Model.Square(bmp)};
+            JKDraw.BMP bmp = new JKDraw.BMPLockBits(1200, 760);
             magicFill.UpdateBMP(bmp);
-        }
 
-
-        public void Run()
-        {
             Random rnd    = new Random();
 
-            for (int it=0; it<10; it++)
+            for (int it=0; it<15; it++)
             {
                 int figure      = rnd.Next(geos.Length);
                 int diameter    = rnd.Next(diameters.Length);
                 int color       = rnd.Next(colors.Length);
+                int colorFill   = rnd.Next(colors.Length);
                 int startX      = rnd.Next(50) * 20;
                 int startY      = rnd.Next(30) * 20;
+                int angle       = rnd.Next(90);
 
-                geos[figure].Prepare(startX, startY, colors[color], diameters[diameter]);
-                magicFill.Run(startX, startY, colors[color]);
+                var startPoint = new Point(startX, startY);
+                geos[figure].Prepare(bmp, startPoint, Color.Gray, diameters[diameter], angle);
+                magicFill.Run(startPoint, colors[colorFill]);
             }
 
+            bmp.Save("output");
+
+            return bmp.Get();
         }
     }
 }

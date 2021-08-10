@@ -43,13 +43,10 @@ namespace JK.Tools.Drawing
             return bmp;
         }
 
-        public Color GetPixel(int x, int y)
-        {
-            if (x < 0 || y < 0 || x >= bmp.Width || y >= bmp.Height)
-                return Color.Black;
-                
-            int line = y * bitmapData.Stride;
-            int shift = x * bytesPerPixel;
+        public Color GetPixel(Point point)
+        {                
+            int line = point.Y * bitmapData.Stride;
+            int shift = point.X * bytesPerPixel;
         
             byte b  = pixels[line + shift];
             byte g  = pixels[line + shift + 1];
@@ -58,13 +55,23 @@ namespace JK.Tools.Drawing
             return Color.FromArgb(r, g, b);
         }
 
-        public void SetPixel(int x, int y, Color color)
+        public bool WithinBMP(Point point)
         {
-            if (x < 0 || y < 0 || x >= bmp.Width || y >= bmp.Height)
+            return (point.X < 0 || point.Y < 0 || point.X >= bmp.Width || point.Y >= bmp.Height) ? false : true;
+        }
+
+        public int TotalPixels()
+        {
+            return bmp.Width * bmp.Height;
+        }
+
+        public void SetPixel(Point point, Color color)
+        {
+            if (point.X < 0 || point.Y < 0 || point.X >= bmp.Width || point.Y >= bmp.Height)
                 return;
-            
-            int line = y * bitmapData.Stride;
-            int shift = x * bytesPerPixel;
+                
+            int line = point.Y * bitmapData.Stride;
+            int shift = point.X * bytesPerPixel;
           
             pixels[line + shift]     = color.B;
             pixels[line + shift + 1] = color.G;

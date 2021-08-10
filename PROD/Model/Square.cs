@@ -7,20 +7,17 @@ namespace Model
 {
     public class Square : IGeo
     {
-        private JKDraw.BMP bmp;
-        
-        public Square(JKDraw.BMP bmp)
+        public override void Prepare(JKDraw.BMP bmp, Point startPoint, Color color, int length, int angleInt)
         {
-            this.bmp = bmp;
-        }
+            double angle = (double)angleInt;
+            double startX = (double) startPoint.X - length/2;
+            double startY = (double) startPoint.Y + length/2;
 
-        public void Prepare(int startXInt, int startYInt, Color color, int length)
-        {
-            double startX = (double) startXInt - length/2;
-            double startY = (double) startYInt + length/2;
-
-            for (double angle=0; angle<360; angle+=90)
+            for (int i=0; i<4; i++)
             {
+                if (angle >= 360)
+                    angle = angle - 360;
+
                 double dX = 0.0;
                 double dY = 0.0;
 
@@ -28,12 +25,18 @@ namespace Model
                 {
                     dX = j * Math.Sin(angle / 180 * Math.PI);
                     dY = j * Math.Cos(angle / 180 * Math.PI);
-
-                    bmp.SetPixel((int)(startX + dX),(int)(startY - dY), color);
+                    
+                    foreach (int[] direction in base.directions)
+                    {
+                        var point = new Point((int)(startX + dX) + direction[0],(int)(startY - dY) + direction[1]);
+                        bmp.SetPixel(point, color);
+                    }
                 }
 
                 startX += dX;
                 startY -= dY;
+            
+                angle+=90;
             }
         }
     }

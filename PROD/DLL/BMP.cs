@@ -4,9 +4,11 @@ namespace JK.Tools.Drawing
 {
     public interface BMP
     {
-        Color GetPixel(int x, int y);
-        void SetPixel(int x, int y, Color color);
+        Color GetPixel(Point point);
+        void SetPixel(Point point, Color color);
         void Save(string file);
         Bitmap Get();
+        bool WithinBMP(Point point);
+        int TotalPixels();
     }
 }
